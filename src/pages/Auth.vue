@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h1>Home</h1>
-        <p>Bienvenido a nuestra tienda</p>
+        yei
     </div>
+    <RouterView/>
 </template>
 
 <script setup>

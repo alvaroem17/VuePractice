@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>Home</h1>
-        <p>Bienvenido a nuestra tienda</p>
+        Probando 2
     </div>
 </template>
 

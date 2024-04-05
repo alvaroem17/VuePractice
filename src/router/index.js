@@ -1,14 +1,54 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createMemoryHistory, createWebHistory, createRouter } from "vue-router";
 
-import Home from '../pages/Home.vue'
-// import AboutView from './AboutView.vue'
+import Root from "../pages/Root.vue";
+import Home from "../pages/Home.vue";
+import About from "../pages/About.vue";
+import Products from "../pages/Products.vue";
+import Auth from "../pages/Auth.vue";
+import Login from "../components/Login.vue";
+import Signup from "../components/Signup.vue";
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: Home},
-]
+  {
+    path: "/",
+    component: Root,
+    redirect: "home",
+    children: [
+      {
+        path: "home",
+        component: Home,
+        name:"Home",
+      },
+      { 
+        path: "about", 
+        component: About,
+        name:"About",
+      },
+      { 
+        path: "products", 
+        component: Products,
+        name:"Products",
+      }
+    ],
+  },{
+    path: "/auth",
+    component: Auth,
+    children: [
+      {
+        path: "login",
+        component: Login,
+        name:"Login",
+      },
+      { 
+        path: "signup", 
+        component: Signup,
+        name:"Signup",
+      }
+    ],
+  },
+];
 
 export const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
-})
+});

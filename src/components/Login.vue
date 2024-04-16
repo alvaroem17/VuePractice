@@ -46,7 +46,9 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { login } from "../services/authService";
+import { authStore } from "../stores/auth";
 
+const auth = authStore()
 
 const email = ref("")
 const password = ref("")
@@ -56,6 +58,7 @@ const loginHandler = async () => {
   try {
     const response = await login({ email:email.value, password: password.value });
     localStorage.setItem("token", response.token);
+    auth.storeToken(response.token)
     router.push('/home')
   } catch (error) {
     console.log(error)

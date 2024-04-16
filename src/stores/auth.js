@@ -7,6 +7,10 @@ export const authStore = defineStore(
     const setToken = localStorage.getItem("token");
     const token = ref(setToken);
 
+    const storeToken = (value) => {
+      token.value  = value
+    }
+
     const user = localStorage.getItem("user");
     const userId = ref(user);
 
@@ -22,7 +26,7 @@ export const authStore = defineStore(
       token.value = "";
       userId.value = "";
     };
-    return { getToken, getUser, logout };
+    return { getToken, getUser, logout, storeToken };
   },
   { persist: true }
 );

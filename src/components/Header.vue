@@ -18,7 +18,7 @@
         <li>About</li>
       </RouterLink>
     </ul>
-    <div class="flex flex-row gap-5 w-60 justify-center">
+    <div class="flex flex-row gap-5 w-60 justify-center" v-if="!hasToken">
       <RouterLink to="/auth/login">
         <button
           class="rounded text-white py-2 hover:scale-105 hover:bg-slate-800 hover:shadow-md w-36"
@@ -33,7 +33,8 @@
           Sign up
         </button>
       </RouterLink>
-      <div>
+    </div>
+    <div class="flex flex-row gap-5 w-60 justify-center items-center" v-else>
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
@@ -50,12 +51,43 @@
             />
           </svg>
         </label>
-      </div>
+        <RouterLink to="/home">
+        <button
+          class="rounded text-white py-2 hover:scale-105 hover:bg-slate-800 hover:shadow-md shadow-[0_0_4px_rgba(0,0,0,0.5)] shadow-slate-300 w-36" @click="logOut()"
+        >
+          Log out
+        </button>
+      </RouterLink>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { authStore } from "../stores/auth";
+import { onMounted, onUpdated, ref, watch } from 'vue'
+
+const auth = authStore()
+
+const hasToken = ref(false)
+
+onMounted (()=>{
+  hasToken.value = auth.getToken ? true : false
+})
+
+onUpdated (()=>{
+  hasToken.value = auth.getToken ? true : false
+})
+
+watch(() => auth.getToken, () => {
+  hasToken.value = auth.getToken ? true : false
+})
+
+const logOut = () => {
+  localStorage.removeItem("token")
+  auth.logout()
+}
+
+</script>
 
 <style scoped>
 li:hover {

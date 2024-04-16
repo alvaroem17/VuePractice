@@ -12,6 +12,7 @@
               type="email"
               placeholder="email"
               className="input input-bordered"
+              v-model="email"
               required
             />
           </div>
@@ -23,6 +24,7 @@
               type="password"
               placeholder="password"
               className="input input-bordered"
+              v-model="password"
               required
             />
             <label className="label">
@@ -32,7 +34,7 @@
             </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Login</button>
+            <button type="button" className="btn btn-primary" @click="loginHandler">Login</button>
           </div>
         </form>
       </div>
@@ -40,6 +42,26 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { login } from "../services/authService";
+
+
+const email = ref("")
+const password = ref("")
+const router = useRouter()
+
+const loginHandler = async () => {
+  try {
+    const response = await login({ email:email.value, password: password.value });
+    localStorage.setItem("token", response.token);
+    router.push('/home')
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+</script>
 
 <style lang="scss" scoped></style>

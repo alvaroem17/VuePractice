@@ -1,8 +1,10 @@
 import axios from "axios";
 import { defineComponent } from "vue";
 
-const api = axios.create({
+export const apiStore = axios.create({
     baseURL: 'https://fakestoreapi.com/'
 })
 
-export default api
+export const apiAuth = axios.create({
+    baseURL: 'https://authapi-i1aj.onrender.com/api/auth'
+})

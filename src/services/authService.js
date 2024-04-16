@@ -10,6 +10,10 @@ export const login = async (userData) => {
 }
 
 export const signUp = async (userData) => {
-    const { data } = await apiAuth.post('/signup', userData);
-    return data
+    try {
+        const { data } = await apiAuth.post('/signup', userData);
+        return data
+    } catch (error) {
+        console.error(error);
+    }
 }

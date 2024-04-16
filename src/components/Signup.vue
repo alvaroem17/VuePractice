@@ -13,6 +13,7 @@
               placeholder="Firstname"
               className="input input-bordered"
               required
+              v-model="firstname"
             />
           </div>
           <div className="form-control">
@@ -24,6 +25,7 @@
               placeholder="Lastname"
               className="input input-bordered"
               required
+              v-model="lastname"
             />
           </div>
           <div className="form-control">
@@ -35,6 +37,7 @@
               placeholder="Username"
               className="input input-bordered"
               required
+              v-model="username"
             />
           </div>
           <div className="form-control">
@@ -46,6 +49,7 @@
               placeholder="email"
               className="input input-bordered"
               required
+              v-model="email"
             />
           </div>
           <div className="form-control">
@@ -56,16 +60,12 @@
               type="password"
               placeholder="password"
               className="input input-bordered"
+              v-model="password"
               required
             />
-            <label className="label">
-              <a href="#" className="label-text-alt link link-hover"
-                >Forgot password?</a
-              >
-            </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Sign up</button>
+            <button type="button" @click="sigUpHandler" className="btn btn-primary">Sign up</button>
           </div>
         </form>
       </div>
@@ -74,6 +74,30 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { signUp } from "../services/authService";
+import { authStore } from "../stores/auth";
+
+const auth = authStore()
+
+const email = ref("")
+const password = ref("")
+const firstname = ref("")
+const lastname = ref("")
+const username = ref("")
+const router = useRouter()
+
+const sigUpHandler = async () => {
+  try {
+    const response = await signUp({ email:email.value, username:username.value, name: {firstname:firstname.value,lastname:lastname.value}, password: password.value });
+    localStorage.setItem("token", response.token);
+    auth.storeToken(response.token)
+    router.push('/home')
+  } catch (error) {
+    console.log(error)
+  }
+};
 
 </script>
 

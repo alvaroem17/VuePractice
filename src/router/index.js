@@ -5,6 +5,7 @@ import Home from "../pages/Home.vue";
 import About from "../pages/About.vue";
 import Products from "../pages/Products.vue";
 import Auth from "../pages/Auth.vue";
+import OneProduct from "../pages/OneProduct.vue";
 import Login from "../components/Login.vue";
 import Signup from "../components/Signup.vue";
 
@@ -28,6 +29,11 @@ const routes = [
         path: "products", 
         component: Products,
         name:"Products",
+      }
+      ,{
+        path: "products/:id",
+        component: OneProduct,
+        name:"Product",
       }
     ],
   },{

@@ -1,12 +1,10 @@
 <template>
-    <div>
-        yei
-    </div>
+    <Header />
     <RouterView/>
 </template>
 
 <script setup>
-
+import Header from '../components/Header.vue'
 </script>
 
 <style lang="scss" scoped>

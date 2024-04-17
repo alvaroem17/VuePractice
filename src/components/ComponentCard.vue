@@ -51,13 +51,6 @@ import { cartStore } from "../stores/cart"
 const myCart = cartStore()
 const quantity = ref(0)
 
-
-const addToCart = (oneProduct, quantity) => {
-
-    myCart.setCart(oneProduct,quantity)
-    
-}
-
 const props = defineProps({
   product: Object,
 });

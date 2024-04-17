@@ -1,5 +1,5 @@
 <template>
-  <div className="hero min-h-[92%]  bg-base-200">
+  <div className="hero min-h-[92%]  bg-base-200" @keydown.enter="loginHandler">
     <div className="hero-content flex-col ">
       <h1 className="text-5xl font-bold">Login now!</h1>
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -11,9 +11,10 @@
             <input
               type="email"
               placeholder="email"
-              className="input input-bordered"
+              :className="errorMsg"
               v-model="email"
               required
+              @click="setDefault"
             />
           </div>
           <div className="form-control">
@@ -23,7 +24,7 @@
             <input
               type="password"
               placeholder="password"
-              className="input input-bordered"
+              :className="errorMsg"
               v-model="password"
               required
             />
@@ -52,7 +53,12 @@ const auth = authStore()
 
 const email = ref("")
 const password = ref("")
+const errorMsg = ref("input input-bordered")
 const router = useRouter()
+
+const setDefault = () => {
+  errorMsg.value = "input input-bordered";
+}
 
 const loginHandler = async () => {
   try {
@@ -61,6 +67,7 @@ const loginHandler = async () => {
     auth.storeToken(response.token)
     router.push('/home')
   } catch (error) {
+    errorMsg.value = "input input-bordered input-error";
     console.log(error)
   }
 };

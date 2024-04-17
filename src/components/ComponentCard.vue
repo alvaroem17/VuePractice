@@ -1,5 +1,7 @@
 <template>
-  <div class="w-64 h-96 shadow-xl shadow-black rounded-md p-4 flex flex-col gap-4 hover:scale-105">
+  <div
+    class="w-64 h-96 shadow-xl shadow-black rounded-md p-4 flex flex-col gap-4 hover:scale-105"
+  >
     <div
       class="flex flex-col gap-4 h-[90%]"
       @click="$router.push(`/products/${product.id}`)"
@@ -24,7 +26,11 @@
         class="bg-gray-900 text-white w-1/3 rounded-md pl-2"
         v-model="quantity"
       />
-      <button type="button" class="self-end hover:bg-slate-600 rounded-full" @click="myCart.setCart(product, quantity)">
+      <button
+        type="button"
+        class="self-end hover:bg-slate-600 rounded-full"
+        @click="addToCart(product, quantity)"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -41,15 +47,40 @@
         </svg>
       </button>
     </div>
+    <Teleport to="body">
+      <div v-if="toast" className="toast toast-end">
+        <div :className="toastType">
+          <span>{{
+            toast ? "Product successfully added" : "An error ocurred"
+          }}</span>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { cartStore } from "../stores/cart"
+import { cartStore } from "../stores/cart";
 
-const myCart = cartStore()
-const quantity = ref(0)
+const myCart = cartStore();
+const quantity = ref(0);
+const toast = ref(false);
+const toastType = ref("alert alert-success");
+
+const addToCart = (product, quantity) => {
+  try {
+    myCart.setCart(product, quantity);
+    toastType.value = "alert alert-success";
+  } catch (error) {
+    toastType.value = "alert alert-error";
+  }
+  toast.value = true;
+
+  setTimeout(() => {
+    toast.value = false;
+  }, 3000);
+};
 
 const props = defineProps({
   product: Object,
